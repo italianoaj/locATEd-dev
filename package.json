@@ -1,0 +1,32 @@
+{
+  "name": "located",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "proxy": "https://127.0.0.1:3001",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "build": "cd client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/italianoaj/locATEd-dev.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/italianoaj/locATEd-dev/issues"
+  },
+  "homepage": "https://github.com/italianoaj/locATEd-dev#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.8"
+  },
+  "engines": {
+    "node": "v16.2.0",
+    "mongodb": "v4.4.6"
+  }
+}
