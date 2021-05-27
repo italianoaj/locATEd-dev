@@ -8,6 +8,8 @@ const bodyParser=require("body-parser");
 
 var db;
 var activeDB="l8d-dev-db1";
+var users=[];
+var ctr=0;
 
 const MongoClient = require('mongodb').MongoClient;
 const { RSA_PSS_SALTLEN_AUTO } = require("constants");
@@ -54,7 +56,8 @@ app.post("/signup", (req,res) => {
 	user.Password=hpass;
 	user.Salt=salt;
 	//store userdata in db
-	var response = {"login":true, "type":user.type, "FirstName": user.FirstName, "LastName": user.LastName};
+	var response={[user.Email]:{"login":true, "type":user.type, "FirstName": user.FirstName, "LastName": user.LastName}}
+	users.push(user);//temp for testing - until DB is up, wanted to see if hashing worked
 	res.send(JSON.stringify(response));
 })
 
@@ -71,6 +74,34 @@ app.get("/customer", (req,res) => {
 app.get("/login", (req,res) => {
 	console.log("/login request received");
 	res.render("login.ejs");
+});
+
+app.post("/login", (req,res) => {
+	console.log("login attempt for "+req.body.email);
+	//search for user in db
+	var s=null;
+	var h=null;
+	for(var i=0; i<users.length;i++){
+		if(users[i].Email==req.body.email){
+			s=users[i].Salt;
+			h=users[i].Password;
+			break;
+		}else{
+			continue;
+		};
+	};
+	//send user provided password and db salt to hmac
+	if(s!=null && h!=null){
+		compHash=hash(s, req.body.password);
+		console.log("stored hash: "+h);
+		console.log("generated hash: "+compHash);
+		//compare generated hash with db stored hash
+		if(h==compHash){
+			console.log("auth successful");
+		}else{
+			console.log("auth failed");
+		};
+	};
 });
 
 app.get("/hw", (req,res) =>{

@@ -9,6 +9,9 @@
 		<title>locATEd</title>
 
         <script>
+            var email;
+            var password;
+
             window.onload=init();
 
             function init(){
@@ -16,11 +19,30 @@
             };
 
             function inputValidation(form){
+                var input=[];
+                email=document.getElementById("email").value;
+                input.push(email);
+                password=document.getElementById("pass").value;
+                input.push(password);
+
+
                 form.reset();
+                var creds={"email":input[0], "password":input[1]};
+                login(creds);
                 return;
             };
 
-            function login(){
+            function auth(){
+                window.alert("made it here");
+            };
+
+            function login(creds){
+                req=new XMLHttpRequest();
+                req.open("POST", "http://localhost:3001/login");
+                req.addEventListener("load", auth);
+                req.setRequestHeader("Content-Type", "application/json");
+                req.responseType="json";
+                req.send(JSON.stringify(creds));
                 return;
             };
         </script>
