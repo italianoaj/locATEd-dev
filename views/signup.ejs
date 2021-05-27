@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Anthony Italiano">
+        <meta name="description" content="mobile food locator">
+        <meta name="keywords" content="food, truck, location, lunch, mobile, grub">
+        
+		<title>locATEd</title>
+        <script>
+            var fname;
+            var lname;
+            var email;
+            var pass;
+            var type;
+            var rpass;
+            var input=[];
+
+            window.onload = init();
+            //first function that runs when the window is fully loaded.
+            function init(){
+                
+            };
+            //runs when the form has been completed successfully. Makes an account for the user
+            function signUp(bool){
+                window.alert("test");
+                console.log(form);
+            };
+            //checks email entry to ensure it is an emauil address
+            function checkEmail(email){
+                console.log("validating email address...")
+                var at="@";
+                if(email.indexOf(at)==-1){
+                    console.log("not an email address")
+                    window.alert("You entered an invalid email address");
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            //checks to see if any form fields were left blank
+            function checkBlanks(input){
+                for(var i=0; i<input.length; i++){
+                    console.log(input[i])
+                    if (input[i]==""){
+                         console.log("blank input");
+                         window.alert("You cannot leave entries blank");
+                         return false;
+                    };
+                };
+                return true;
+            };
+            //checks the input from the form to ensure the user has entered the proper data to make an account. 
+            function inputValidation(form){
+                input=[];
+                console.log("checking input");
+                fname=document.getElementById("fname").value;
+                input.push(fname);
+                lname=document.getElementById("lname").value;
+                input.push(lname);
+                email=document.getElementById("email").value;
+                input.push(email);
+                type=document.getElementById("type").value;
+                input.push(type);
+                pass=document.getElementById("pass").value;
+                input.push(pass);
+                rpass=document.getElementById("rpass").value;
+                input.push(rpass);
+                console.log(input);
+                if(!checkBlanks(input)){
+                    return;
+                }
+                if(!checkEmail(email)){
+                    return;
+                };
+                if(!checkPass(input)){
+                    return;
+                }
+                console.log(fname, lname, email, type, pass, rpass);
+            };
+        </script>
+    </head>
+    <body>
+        <form>
+            <label for="fname">First name:</label>
+            <input type="text" id="fname" name="fname" required><br><br>
+            <label for="lname">Last name:</label>
+            <input type="text" id="lname" name="lname" required><br><br>
+            <label for="email">Email Address:</label>
+            <input type="text" id="email" name="email" required><br><br>
+            <label for="type">Who are you?</label>
+            <select name="type" id="type">
+            <option value="vendor">Vendor</option>
+            <option value="customer">Customer</option>
+            </select><br><br>
+            <label for="pass">Password (8 characters minimum):</label>
+            <input type="password" id="pass" name="password" minlength="8" required><br><br>
+            <label for="rpass">Confirm Password:</label>
+            <input type="password" id="rpass" name="rpassword" minlength="8" required><br><br>
+            <input type="button" value="Sign Up" onclick="inputValidation(this.form);">
+          </form>
+    </body>
+</html>

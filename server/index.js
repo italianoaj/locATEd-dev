@@ -23,6 +23,11 @@ app.get("/admin", (req,res) => {
 	res.render("admin.ejs");
 });
 
+app.get("/signup", (req,res) => {
+	console.log("/signup request received");
+	res.render("signup.ejs");
+});
+
 app.get("/vendor", (req,res) => {
 	console.log("/vendor request received");
 	res.render("vendor.ejs");
@@ -33,14 +38,9 @@ app.get("/customer", (req,res) => {
 	res.render("customer.ejs");
 });
 
-app.get("/vlogin", (req,res) => {
-	console.log("/vlogin request received");
-	res.render("vlogin.ejs");
-});
-
-app.get("/clogin", (req,res) => {
-	console.log("/clogin request received");
-	res.render("clogin.ejs");
+app.get("/login", (req,res) => {
+	console.log("/login request received");
+	res.render("login.ejs");
 });
 
 app.get("/hw", (req,res) =>{
@@ -53,7 +53,7 @@ app.get("*", (req,res) =>{
 });
 
 client.connect(err => {
-	const collection = client.db(activeDB).collection("devices");
+	const collection = client.db(activeDB).collection("users");
 	if (err) throw err;
 	console.log(activeDB+" is the active db");
 	app.listen(PORT, () => {
