@@ -72,9 +72,21 @@
                 return true;//apparently never happens
             };
 
+            function auth(){
+                console.log(req.response.type)
+                var loc=req.response.type;
+                console.log(loc)
+                req=new XMLHttpRequest();
+                req.open("get", "http://localhost:3001/"+loc);
+                req.setRequestHeader("Content-Type", "application/json");
+                req.responseType="json";
+                req.send(JSON.stringify(req.response));
+            };
+
             function submit(newUser){
                 req=new XMLHttpRequest();
                 req.open("POST", "http://localhost:3001/signup");
+                req.addEventListener("load", auth);
                 req.setRequestHeader("Content-Type", "application/json");
                 req.responseType="json";
                 req.send(JSON.stringify(newUser));
@@ -105,8 +117,8 @@
                 //if(!checkPass(input)){
                 //    return;
                 //}
-                var newUser={"attrib": [{"FirstName":input[0], "LastName":input[1], "Email":input[2],
-                "type":input[3], "Password":input[4]}]};
+                var newUser={"attrib":{"FirstName":input[0], "LastName":input[1], "Email":input[2],
+                "type":input[3], "Password":input[4]}};
                 form.reset();    
                 submit(newUser);
             };

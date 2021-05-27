@@ -1,6 +1,7 @@
 const express=require("express");
 const PORT=process.env.PORT || 3001;
 const path=require('path');
+const crypto=require("crypto");
 const app=express();
 const bodyParser=require("body-parser");
 
@@ -9,6 +10,7 @@ var db;
 var activeDB="l8d-dev-db1";
 
 const MongoClient = require('mongodb').MongoClient;
+const { RSA_PSS_SALTLEN_AUTO } = require("constants");
 const uri = "";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -17,6 +19,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.set('view engine', 'ejs');
+
+function freeSalt(){
+	return crypto.randomBytes(Math.ceil(12/2)).toString('hex').slice(0,12)
+};
+
+function hash(salt, pass){
+	var hmac = crypto.createHmac("sha512", salt);
+	hmac.update(pass);
+	var hpass=hmac.digest("hex");
+	return hpass;
+};
 
 app.get("/", (req,res) => {
 	console.log("/ request received");
@@ -35,7 +48,14 @@ app.get("/signup", (req,res) => {
 
 app.post("/signup", (req,res) => {
 	console.log("post for new user");
-	console.log(req.body);
+	var user = req.body.attrib;
+	var salt=freeSalt();
+	var hpass=hash(salt,req.body.attrib.Password);
+	user.Password=hpass;
+	user.Salt=salt;
+	//store userdata in db
+	var response = {"login":true, "type":user.type}
+	res.send(JSON.stringify(response));
 })
 
 app.get("/vendor", (req,res) => {
