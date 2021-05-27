@@ -14,7 +14,7 @@ const { RSA_PSS_SALTLEN_AUTO } = require("constants");
 const uri = "";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.use(express.static(path.resolve(__dirname, "../client/build")));
+app.use(express.static(path.resolve(__dirname, "../client/public")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -54,7 +54,7 @@ app.post("/signup", (req,res) => {
 	user.Password=hpass;
 	user.Salt=salt;
 	//store userdata in db
-	var response = {"login":true, "type":user.type}
+	var response = {"login":true, "type":user.type, "FirstName": user.FirstName, "LastName": user.LastName};
 	res.send(JSON.stringify(response));
 })
 
@@ -79,7 +79,7 @@ app.get("/hw", (req,res) =>{
 });
 
 app.get("*", (req,res) =>{
-	res.sendfile(path.resolve(__dirname, "../client/build", "index.html"));
+	res.sendFile(path.resolve(__dirname, "../client/public", "index.html"));
 });
 
 client.connect(err => {

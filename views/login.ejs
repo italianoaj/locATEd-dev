@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Anthony Italiano">
+        <meta name="description" content="mobile food locator">
+        <meta name="keywords" content="food, truck, location, lunch, mobile, grub">
+        
+		<title>locATEd</title>
+
+        <script>
+            window.onload=init();
+
+            function init(){
+                return;
+            };
+
+            function inputValidation(form){
+                form.reset();
+                return;
+            };
+
+            function login(){
+                return;
+            };
+        </script>
+    </head>
+    <body>
+        <form if="loginForm">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required><br><br>
+            <label for="pass">Password:</label>
+            <input type="password" id="pass" name="password" minlength="8" required><br><br>
+            <input type="button" value="Login" onclick="inputValidation(this.form);">
+        </form>
+    </body>
+</html>
