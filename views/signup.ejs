@@ -50,6 +50,35 @@
                 };
                 return true;
             };
+            //supposed to check password validation 
+            function checkPass(input){
+                if(input[4]!=input[5]){
+                    console.log("passwords do not match");
+                    window.alert("Passwords do not match");
+                    return false;
+                };
+                if(input[4].length<8){
+                    console.log("password less than 8 chars");
+                    window.alert("Password needs to be at least 8 characters long");                
+                    return false;
+                };
+                console.log(input[4].indexOf(input[0]));
+                console.log(input[4].indexOf(input[1]));
+                if(input[4].indexOf(input[0])!=-1 || input[4].indexOf(input[1]!=-1)){//always enters this conditional for some reason
+                    console.log("password contains name");
+                    window.alert("You cannot have your name in your password");
+                    return false;
+                };
+                return true;//apparently never happens
+            };
+
+            function submit(newUser){
+                req=new XMLHttpRequest();
+                req.open("POST", "http://localhost:3001/signup");
+                req.setRequestHeader("Content-Type", "application/json");
+                req.responseType="json";
+                req.send(JSON.stringify(newUser));
+            };
             //checks the input from the form to ensure the user has entered the proper data to make an account. 
             function inputValidation(form){
                 input=[];
@@ -73,15 +102,18 @@
                 if(!checkEmail(email)){
                     return;
                 };
-                if(!checkPass(input)){
-                    return;
-                }
-                console.log(fname, lname, email, type, pass, rpass);
+                //if(!checkPass(input)){
+                //    return;
+                //}
+                var newUser={"attrib": [{"FirstName":input[0], "LastName":input[1], "Email":input[2],
+                "type":input[3], "Password":input[4]}]};
+                form.reset();    
+                submit(newUser);
             };
         </script>
     </head>
     <body>
-        <form>
+        <form id="signUpForm">
             <label for="fname">First name:</label>
             <input type="text" id="fname" name="fname" required><br><br>
             <label for="lname">Last name:</label>

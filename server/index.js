@@ -2,6 +2,8 @@ const express=require("express");
 const PORT=process.env.PORT || 3001;
 const path=require('path');
 const app=express();
+const bodyParser=require("body-parser");
+
 
 var db;
 var activeDB="l8d-dev-db1";
@@ -11,6 +13,9 @@ const uri = "mongodb+srv://netmage:IcntG3t1n$42@located-dev.lunjj.mongodb.net/my
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+
 app.set('view engine', 'ejs');
 
 app.get("/", (req,res) => {
@@ -27,6 +32,11 @@ app.get("/signup", (req,res) => {
 	console.log("/signup request received");
 	res.render("signup.ejs");
 });
+
+app.post("/signup", (req,res) => {
+	console.log("post for new user");
+	console.log(req.body);
+})
 
 app.get("/vendor", (req,res) => {
 	console.log("/vendor request received");
