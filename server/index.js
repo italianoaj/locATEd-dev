@@ -9,7 +9,7 @@ var db;
 var activeDB="l8d-dev-db1";
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://netmage:IcntG3t1n$42@located-dev.lunjj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = "";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
